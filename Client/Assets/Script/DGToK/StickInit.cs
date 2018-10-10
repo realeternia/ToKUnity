@@ -8,6 +8,7 @@ public class StickInit : MonoBehaviour
 {
     public GameObject GreenStick;
     public GameObject BlueStick;
+    public GameObject GrayStick;
 
     // Use this for initialization
     void Start () {
@@ -16,16 +17,20 @@ public class StickInit : MonoBehaviour
             for (int j = -10; j < 10; j++)
             {
                 GameObject tickItem;
-                if (MathTool.IsRandomInRange01(0.15f))
+                var height = MathTool.GetRandom(7) + 1;
+                if (height == 1)
                 {
                     tickItem = Instantiate(BlueStick, gameObject.transform);
-                    tickItem.transform.localScale = new Vector3(3, 1, 3);
+                }
+                else if (height == 7)
+                {
+                    tickItem = Instantiate(GrayStick, gameObject.transform);
                 }
                 else
                 {
                     tickItem = Instantiate(GreenStick, gameObject.transform);
-                    tickItem.transform.localScale = new Vector3(3, MathTool.GetRandom(7), 3); //1-7的高度
                 }
+                tickItem.transform.localScale = new Vector3(3, height, 3);
                 tickItem.transform.position = new Vector3(i*3,0.5f,j*3);
             }
         }
