@@ -294,6 +294,8 @@ MonoBehaviour:
   GreenStick: {fileID: 1160511081471972, guid: 19458fcc75bc11d409a6a51cd04b9382, type: 2}
   BlueStick: {fileID: 1803651482135652, guid: b46ffde4de19a8644983842a7b7cd753, type: 2}
   GrayStick: {fileID: 1422860908892714, guid: aa821b5ce22cea145883d1096197a892, type: 2}
+  CommonStick: {fileID: 1905820655932262, guid: 2d1ccfb1d117ad84896748b15bb0a872,
+    type: 2}
 --- !u!1 &1887600998
 GameObject:
   m_ObjectHideFlags: 0
