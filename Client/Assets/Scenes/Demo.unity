@@ -398,8 +398,9 @@ GameObject:
   - component: {fileID: 1459874922}
   - component: {fileID: 1459874924}
   - component: {fileID: 1459874923}
+  - component: {fileID: 1459874925}
   m_Layer: 0
-  m_Name: Image
+  m_Name: StateBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -456,6 +457,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1459874921}
+--- !u!114 &1459874925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1459874921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0397669f2c130554aba52d4d00384f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ResComp: {fileID: 1198061678491686, guid: 690d8516476d13a4b9054662217b0d0c, type: 2}
 --- !u!1 &1610664885
 GameObject:
   m_ObjectHideFlags: 0
