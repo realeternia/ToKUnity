@@ -6,6 +6,11 @@ using Vector3 = UnityEngine.Vector3;
 
 public class StickInit : MonoBehaviour
 {
+    public class LandData
+    {
+        public GameObject StickItem;
+    }
+
     public GameObject GreenStick;
     public GameObject BlueStick;
     public GameObject GrayStick;
@@ -13,6 +18,8 @@ public class StickInit : MonoBehaviour
     public GameObject CommonStick;
 
     public GameObject TowerBase;
+
+    private Dictionary<int, LandData> landDict = new Dictionary<int, LandData>();
 
     // Use this for initialization
     void Start ()
@@ -22,6 +29,7 @@ public class StickInit : MonoBehaviour
 
     private void GenerateLandscape()
     {
+        List<int> canTowerLandList = new List<int>();
         for (int i = -10; i < 10; i++)
         {
             for (int j = -10; j < 10; j++)
@@ -31,30 +39,31 @@ public class StickInit : MonoBehaviour
                 tickItem = Instantiate(CommonStick, gameObject.transform);
                 tickItem.transform.localScale = new Vector3(3, 3, 3);
                 tickItem.transform.position = new Vector3(i*3, 0.5f + (float)height/2, j*3);
+                var itemId = (i + 11) * 1000 + j + 11;
+                landDict[itemId] = new LandData { StickItem = tickItem };
 
-                GameObject subtickItem;
+                tickItem.GetComponent<LandInfo>().Id = itemId;
+
                 if (height == 1)
                 {
-                    subtickItem = Instantiate(BlueStick, tickItem.transform);
+                    Instantiate(BlueStick, tickItem.transform);
                 }
                 else if (height == 7)
                 {
-                    subtickItem = Instantiate(GrayStick, tickItem.transform);
+                    Instantiate(GrayStick, tickItem.transform);
                 }
                 else
                 {
-                    subtickItem = Instantiate(GreenStick, tickItem.transform);
-                }
-             //   subtickItem.transform.localPosition = new Vector3(0, (float) height/10 + 0.1f, 0);
-           //     subtickItem.transform.localScale = new Vector3(1, 0.01f, 1);
-
-                if (MathTool.IsRandomInRange01(0.3f))
-                {
-                    var towerItem = Instantiate(TowerBase, tickItem.transform);
-                  //  towerItem.transform.localPosition = new Vector3(0, (float)height / 10 + 0.1f, 0);
-                  //  towerItem.transform.localScale = new Vector3(0.5f/3, 0.5f/5, 0.5f/3);
+                    Instantiate(GreenStick, tickItem.transform);
+                    canTowerLandList.Add(itemId); //只有平地可以出现城堡
                 }
             }
+        }
+
+        var towerList = NLRandomPicker<int>.RandomPickN(canTowerLandList, 5);
+        foreach (var towerId in towerList)
+        {
+            Instantiate(TowerBase, landDict[towerId].StickItem.transform);
         }
     }
 
