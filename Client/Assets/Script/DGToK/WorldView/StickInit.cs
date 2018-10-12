@@ -20,14 +20,21 @@ public class StickInit : MonoBehaviour
 
     public GameObject TowerBase;
 
+    public GameObject SelectEffType;
+
     private Dictionary<int, LandData> landDict = new Dictionary<int, LandData>();
     private Camera mainCamera;
+
+    private Vector3 cameraPos;
+    private int selectLandId;
+    private GameObject selectEff;
 
     // Use this for initialization
     void Start ()
     {
         GenerateLandscape();
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        cameraPos = mainCamera.transform.position;
     }
 
     private void GenerateLandscape()
@@ -71,15 +78,11 @@ public class StickInit : MonoBehaviour
     }
 
     // Update is called once per frame
-	void Update () {
+	void Update ()
+	{
+	    CheckSelectLand();
         HandleInput();
     }
-
-
-    private bool pressing = false;
-    private bool dragging = false;
-    private float touchDownTime = 0f;
-    private Vector3 touchPosition;
 
     private void HandleInput()
     {
@@ -89,95 +92,46 @@ public class StickInit : MonoBehaviour
         //    return;
         //}
 
-        //if (GUIManager.Instance.IsModal)
-        //{
-        //    return;
-        //}
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            // Debug.Log(pressing + " " + (Time.time - touchDownTime));
-            if (pressing && (Time.time - touchDownTime) < 0.3f)
-            {
-              //  HandleClick();
-            }
-
-            pressing = false;
-            dragging = false;
-
-            return;
-        }
-
         if (Input.GetMouseButton(0))
         {
             //Debug.Log("MouseDown");
             Vector3 realHitPos;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, 9999, ~(1 << LayerMask.GetMask("land"))))
             {
                 //  print(hit.transform.name)//打印选中物体的名字
                 Debug.Log(hit.transform.position);
                 realHitPos = hit.transform.position;
-            }
-            else
-            {
-                return;
-            }
 
-            if (!pressing)
-            {
-                //Debug.Log("MouseDown Begin Press");
-                touchDownTime = Time.time;
-                touchPosition = realHitPos;
-                pressing = true;
-
-                return;
-            }
-
-            if (!dragging && Vector3.Distance(touchPosition, realHitPos) > 1)
-            {
-                //Debug.Log("MouseDown Begin Drag");
-                dragging = true;
-                touchPosition = realHitPos;
-
-                return;
-            }
-
-            if (dragging)
-            {
-                var posOffset = (touchPosition - realHitPos);
-                var offset = new Vector3(posOffset.x, 0, posOffset.z);
-
-                Debug.Log(string.Format("MouseDown Dragging {0}", offset));
-                mainCamera.transform.position += offset;
-            //    mainCamera.transform.LookAt(realHitPos);
-
-               // mainCamera.transform.position = GUIHelper.CheckLimit(mainCamera.transform.position, 20, 104, -21, 60);//限制屏幕区域
-               dragging = false;
-                // MainCamera.transform.Translate(offset* 0.01f);
+                iTween.MoveTo(mainCamera.gameObject, cameraPos + new Vector3(realHitPos.x - 3, 0, realHitPos.z + 3), 0.5f);
             }
         }
 
-        ////Zoom out
-        //if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        //{
-        //    if (mainCamera.fieldOfView < 80)
-        //        mainCamera.fieldOfView += 10;
+    }
 
-        //    if (mainCamera.orthographicSize <= 20)
-        //        mainCamera.orthographicSize += 0.5F;
-        //}
-
-        ////Zoom in
-        //if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        //{
-        //    if (mainCamera.fieldOfView > 40)
-        //        mainCamera.fieldOfView = Math.Max(20, mainCamera.fieldOfView - 10);
-
-        //    if (mainCamera.orthographicSize >= 1)
-        //        mainCamera.orthographicSize -= 0.5F;
-        //}
-
+    private void CheckSelectLand()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 9999, ~(1 << LayerMask.GetMask("land"))))
+        {
+            print(hit.transform.name);//打印选中物体的名字
+            var landId = hit.transform.gameObject.GetComponent<LandInfo>().Id;
+            if (landId != selectLandId)
+            {
+                selectLandId = landId;
+                if (selectEff == null)
+                {
+                    selectEff = Instantiate(SelectEffType, hit.transform);
+                }
+                else
+                {
+                    selectEff.transform.SetParent(hit.transform);
+                }
+                selectEff.transform.localPosition = new Vector3(0, .6f, 0);
+                //print("selectEff 2 " + hit.transform);
+            }
+        }
     }
 }

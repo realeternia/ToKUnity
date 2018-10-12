@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23189125304840018}
   - component: {fileID: 65851680679544386}
   - component: {fileID: 114115156432622978}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StickCommon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
