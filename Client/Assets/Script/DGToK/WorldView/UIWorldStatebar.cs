@@ -6,10 +6,13 @@ using UnityEngine;
 
 public class UIWorldStatebar : MonoBehaviour
 {
+    public static UIWorldStatebar Instance { get; private set; }
+
     public GameObject ResComp;
 
     void Start()
     {
+        Instance = this;
         {
             var goldItem = Instantiate(ResComp, transform);
             //    goldItem.transform.localPosition = new Vector3(80,0,0);

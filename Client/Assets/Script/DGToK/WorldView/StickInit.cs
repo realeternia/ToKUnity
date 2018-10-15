@@ -7,11 +7,6 @@ using Vector3 = UnityEngine.Vector3;
 
 public class StickInit : MonoBehaviour
 {
-    public class LandData
-    {
-        public GameObject StickItem;
-    }
-
     public GameObject GreenStick;
     public GameObject BlueStick;
     public GameObject GrayStick;
@@ -24,7 +19,6 @@ public class StickInit : MonoBehaviour
     public GameObject HudLand;
     public GameObject UICanvas;
 
-    private Dictionary<int, LandData> landDict = new Dictionary<int, LandData>();
     private Camera mainCamera;
 
     private Vector3 cameraPos;
@@ -52,7 +46,7 @@ public class StickInit : MonoBehaviour
                 tickItem.transform.localScale = new Vector3(3, 3, 3);
                 tickItem.transform.position = new Vector3(i*3, 0.5f + (float)height/2, j*3);
                 var itemId = (i + 11) * 1000 + j + 11;
-                landDict[itemId] = new LandData { StickItem = tickItem };
+                LandManager.Instance.AddLand(itemId, new LandManager.LandData {StickItem = tickItem});
 
                 tickItem.GetComponent<LandInfo>().Id = itemId;
 
@@ -75,7 +69,7 @@ public class StickInit : MonoBehaviour
         var towerList = NLRandomPicker<int>.RandomPickN(canTowerLandList, 5);
         foreach (var towerId in towerList)
         {
-            var tower = Instantiate(TowerBase, landDict[towerId].StickItem.transform);
+            var tower = Instantiate(TowerBase, LandManager.Instance.GetLand(towerId).StickItem.transform);
             var hudObj = Instantiate(HudLand, UICanvas.transform);
             hudObj.GetComponent<HudLand>().BindObj = tower;
         }
@@ -120,7 +114,7 @@ public class StickInit : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 9999, ~(1 << LayerMask.GetMask("land"))))
         {
-            print(hit.transform.name);//打印选中物体的名字
+        //    print(hit.transform.name);//打印选中物体的名字
             var landId = hit.transform.gameObject.GetComponent<LandInfo>().Id;
             if (landId != selectLandId)
             {
@@ -134,7 +128,8 @@ public class StickInit : MonoBehaviour
                     selectEff.transform.SetParent(hit.transform);
                 }
                 selectEff.transform.localPosition = new Vector3(0, .6f, 0);
-                //print("selectEff 2 " + hit.transform);
+
+                UIWorldLandbar.Instance.SetLandId(landId);
             }
         }
     }
