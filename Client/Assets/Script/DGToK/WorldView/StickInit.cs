@@ -21,6 +21,8 @@ public class StickInit : MonoBehaviour
     public GameObject TowerBase;
 
     public GameObject SelectEffType;
+    public GameObject HudLand;
+    public GameObject UICanvas;
 
     private Dictionary<int, LandData> landDict = new Dictionary<int, LandData>();
     private Camera mainCamera;
@@ -73,7 +75,9 @@ public class StickInit : MonoBehaviour
         var towerList = NLRandomPicker<int>.RandomPickN(canTowerLandList, 5);
         foreach (var towerId in towerList)
         {
-            Instantiate(TowerBase, landDict[towerId].StickItem.transform);
+            var tower = Instantiate(TowerBase, landDict[towerId].StickItem.transform);
+            var hudObj = Instantiate(HudLand, UICanvas.transform);
+            hudObj.GetComponent<HudLand>().BindObj = tower;
         }
     }
 
@@ -101,7 +105,7 @@ public class StickInit : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 9999, ~(1 << LayerMask.GetMask("land"))))
             {
                 //  print(hit.transform.name)//打印选中物体的名字
-                Debug.Log(hit.transform.position);
+           //     Debug.Log(hit.transform.position);
                 realHitPos = hit.transform.position;
 
                 iTween.MoveTo(mainCamera.gameObject, cameraPos + new Vector3(realHitPos.x - 3, 0, realHitPos.z + 3), 0.5f);

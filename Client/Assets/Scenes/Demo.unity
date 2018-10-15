@@ -299,6 +299,8 @@ MonoBehaviour:
   TowerBase: {fileID: 1189768138653790, guid: 63da3fd3e98a87349ab172d8ac60f666, type: 2}
   SelectEffType: {fileID: 1548687306617208, guid: df1ccd70641e9ce46aac46492ec2f7f6,
     type: 2}
+  HudLand: {fileID: 1560236457123700, guid: eb1227f7d3f305b48b8561ea9d3124f0, type: 2}
+  UICanvas: {fileID: 1610664885}
 --- !u!1 &1121936514
 GameObject:
   m_ObjectHideFlags: 0
