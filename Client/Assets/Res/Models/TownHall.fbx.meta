@@ -214,7 +214,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material04
-    second: {fileID: 2100000, guid: cac8a7bd00d3a6e4280786b0a30eded8, type: 2}
+    second: {fileID: 2100000, guid: 3ff8e947b36660a46ab334161bac688b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -224,7 +224,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material06
-    second: {fileID: 2100000, guid: cac8a7bd00d3a6e4280786b0a30eded8, type: 2}
+    second: {fileID: 2100000, guid: 3ff8e947b36660a46ab334161bac688b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

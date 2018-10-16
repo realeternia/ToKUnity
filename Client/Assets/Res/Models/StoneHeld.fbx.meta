@@ -21,15 +21,22 @@ ModelImporter:
     2300002: Mesh02
     2300004: Mesh03
     2300006: Mesh04
+    2300008: //RootNode
     3300000: Mesh01
     3300002: Mesh02
     3300004: Mesh03
     3300006: Mesh04
+    3300008: //RootNode
     4300000: Mesh01
     4300002: Mesh02
     4300004: Mesh03
     4300006: Mesh04
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material01
+    second: {fileID: 2100000, guid: 8d356f9a426513646a2550d3de7d41fe, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

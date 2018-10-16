@@ -13,7 +13,8 @@ public class StickInit : MonoBehaviour
 
     public GameObject CommonStick;
 
-    public GameObject TowerBase;
+    public GameObject LandCastle;
+    public GameObject LandHeld;
 
     public GameObject SelectEffType;
     public GameObject HudLand;
@@ -69,9 +70,15 @@ public class StickInit : MonoBehaviour
         var towerList = NLRandomPicker<int>.RandomPickN(canTowerLandList, 5);
         foreach (var towerId in towerList)
         {
-            var tower = Instantiate(TowerBase, LandManager.Instance.GetLand(towerId).StickItem.transform);
+            var tower = Instantiate(LandCastle, LandManager.Instance.GetLand(towerId).StickItem.transform);
             var hudObj = Instantiate(HudLand, UICanvas.transform);
             hudObj.GetComponent<HudLand>().BindObj = tower;
+        }
+
+        var heldList = NLRandomPicker<int>.RandomPickN(canTowerLandList, 5);
+        foreach (var heldId in heldList)
+        {
+            Instantiate(LandHeld, LandManager.Instance.GetLand(heldId).StickItem.transform);
         }
     }
 
